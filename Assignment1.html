@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>Stopwatch - Timer</title>
+	<style type="text/css">
+		body{
+			text-align: center;
+		}
+		input[type="radio"]{
+			margin: 0 10px 0 10px;
+		}
+		button {
+		  	background-color: #008CBA;
+		  	border: none;
+		  	color: white;
+		  	padding: 15px 32px;
+		  	text-align: center;
+		  	text-decoration: none;
+		  	display: inline-block;
+		  	font-size: 16px;
+		  	margin: 4px 2px;
+		  	cursor: pointer;
+		}
+		#stop{
+			background-color: #e7e7e7;
+			color: black;
+		}
+	</style>
+	<script type="text/javascript">
+		window.onload = function() {
+			var h1 = document.getElementsByTagName('h1'),
+				start = document.getElementById('start'),
+				stop = document.getElementById('stop'),
+				radios = document.getElementsByName('color'),
+				seconds = 0, minutes = 0, hours = 0,
+				t, timeString;
+			function add(){
+				seconds++;
+				if (seconds>=60){
+					seconds = 0;
+					minutes++;
+					if(minutes>=60){
+						minutes = 0;
+						hours++;
+					}
+				}
+				if (hours<=9) timeString = "0"+hours+":";
+				else timeString = hours+":";
+				if (minutes<=9) timeString+= "0"+minutes+":";
+				else timeString+= minutes+":";
+				if (seconds<=9) timeString+="0"+seconds;
+				else timeString+=seconds;
+				h1[0].textContent = timeString;
+				timer();
+			}
+			function timer(){
+				t = setTimeout(add,1000);
+			}
+			timer();
+			start.onclick = function(){
+				 clearTimeout(t);
+				 timer();
+			};
+			stop.onclick = function(){
+				clearTimeout(t);
+			}
+			for(var i=0;i<radios.length;i++){
+				radios[i].onclick = function(){
+					//works when the value of radio button is a supported color
+					h1[0].style.color = this.value;
+				}
+			}
+		};
+	</script>
+</head>
+<body>
+	<h1>
+		<time>00:00:00</time>
+	</h1>
+	<button id="start">start</button>
+	<button id="stop">stop</button>
+	<p><strong>Change color:</strong></p>
+	<!-- make sure to keep the color in the value attribute -->
+	<input type="radio" name="color" value="black" checked>Black
+	<input type="radio" name="color" value="red">Red
+	<input type="radio" name="color" value="green">Green
+	<input type="radio" name="color" value="blue">Blue
+</body>
+</html>
